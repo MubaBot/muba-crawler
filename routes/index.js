@@ -3,7 +3,9 @@ var router = express.Router();
 
 // register keyword
 router.get('/enable/:keyword', function(req, res, next) {
-  res.send('test');
+  res.render('success', {
+    keyword: req.params.keyword
+  });
 });
 
 // remove keyword
