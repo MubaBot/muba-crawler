@@ -1,11 +1,10 @@
 const config = require('../../config').config;
 
-const works = require('mongoose').works;
+const works = require('../../models/works');
 
 exports.getAllWorks = () => {
-    return works.find({})
-        .then(works => works)
-        .catch(err => err);
+    console.log(works);
+    return works.find({}).then(works => works).catch(err => console.log(err));
 }
 
 exports.insertWork = async (engine, keyword) => {
@@ -13,13 +12,14 @@ exports.insertWork = async (engine, keyword) => {
 
     for (var e in engines) {
         if (e == engine) {
-            var already = await works.findOne({ searchEngine: engine, keyword: keyword });
-            if (!already) {
-                works.create({ searchEngine: engine, keyword: keyword });
-                return keyword;
-            } else {
-                return NULL;
-            }
+            return works.findOne({ searchEngine: engine, keyword: keyword }).then((already) => {
+                if (already == null) {
+                    works.create({ searchEngine: engine, keyword: keyword });
+                    return keyword;
+                } else {
+                    return null;
+                }
+            });
         }
     }
 }

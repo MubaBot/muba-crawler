@@ -12,8 +12,6 @@ router.get('/disable/:keyword', function(req, res, next) {
 });
 
 // show collected information
-router.get('/lists/:keyword/:pages', function(req, res, next) {
-  res.send('test');
-});
+router.get('/lists/:pages', crawlerController.listKeywords);
 
 module.exports = router;

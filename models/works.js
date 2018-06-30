@@ -6,7 +6,7 @@ const worksSchema = new mongoose.Schema(
         searchEngine: { type: String, required: true },
         mode: { type: String, required: false },
         keyword: { type: String, required: true },
-        pages: { type: number, required: true, default: 0 }
+        pages: { type: Number, required: true, default: 0 }
     },
     {
         timestamps: true,
