@@ -10,6 +10,9 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+// ENV
+require('dotenv').config();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -25,7 +28,7 @@ app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
 
 // CONNECT TO MONGODB SERVER
-mongoose.connect(process.env.MONGO_URI, { useMongoClient: true })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Successfully connected to mongodb'))
   .catch(e => console.error(e));
 
