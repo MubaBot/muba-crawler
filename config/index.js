@@ -5,8 +5,8 @@ exports.config = {
             query: 'query',
             mode: [
                 { name: 'blog', params: 'where=post' },
-                { name: 'cafe', params: 'where=article' },
-                { name: 'kin', params: 'where=kin' }
+                // { name: 'cafe', params: 'where=article' },
+                // { name: 'kin', params: 'where=kin' }
             ],
             page: {
                 param: 'start',
