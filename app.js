@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+var crawlerController = require('./controller/cralwer');
+
 // ENV
 require('dotenv').config();
 
@@ -51,3 +53,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+crawlerController.checkCrawler();

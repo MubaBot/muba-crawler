@@ -3,7 +3,6 @@ const config = require('../../config').config;
 const works = require('../../models/works');
 
 exports.getAllWorks = () => {
-    console.log(works);
     return works.find({}).then(works => works).catch(err => console.log(err));
 }
 

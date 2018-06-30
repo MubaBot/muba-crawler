@@ -8,10 +8,13 @@ var crwaler = cron.schedule('* * * * *', function () {
 
 var started = false;
 
-
 exports.startCrawler = () => { if (!started) { crwaler.start(); started = true; } };
 exports.stopCrawler = () => { if (started) { crwaler.stop(); started = false; } };
-
+exports.checkCrawler = () => {
+    works.getAllWorks().then((results) => {
+        if (results.length != 0) exports.startCrawler();
+    }).catch(err => console.log(err));
+}
 
 exports.enableKeyword = (req, res, next) => {
     if (req.query.engine) {
@@ -26,11 +29,10 @@ exports.enableKeyword = (req, res, next) => {
     } else {
         works.insertWork('naver', req.params.keyword)
     }
-
 }
 
 exports.listKeywords = (req, res, next) => {
     return works.getAllWorks().then((results) => {
         return res.send(JSON.stringify(results));
-    }).catch(err => res.send('test'));
+    }).catch(err => console.log(err));
 }
