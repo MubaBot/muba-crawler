@@ -1,7 +1,6 @@
 const config = require('../../config').config;
 
-const mongoose = require('mongoose');
-const works = mongoose.model('works', worksSchema);
+const works = require('mongoose').works;
 
 exports.getAllWorks = () => {
     return works.find({})
