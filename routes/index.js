@@ -1,8 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+// register keyword
+router.get('/enable/:keyword', function(req, res, next) {
+  res.render('success', {
+    keyword: req.params.keyword
+  });
+});
+
+// remove keyword
+router.get('/disable/:keyword', function(req, res, next) {
+  res.send('test');
+});
+
+// show collected information
+router.get('/lists/:keyword/:pages', function(req, res, next) {
   res.send('test');
 });
 
