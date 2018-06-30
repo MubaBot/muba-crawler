@@ -9,7 +9,7 @@ exports.getAllWorks = () => {
         .catch(err => err);
 }
 
-exports.insertWork = (engine, keyword) => {
+exports.insertWork = async (engine, keyword) => {
     const engines = config.engines;
 
     for (var e in engines) {

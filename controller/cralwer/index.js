@@ -10,12 +10,14 @@ exports.stopCrawler = crwaler.stop();
 
 exports.enableKeyword = (req, res, next) => {
     if (req.query.engine) {
-        if (cron.insertWork('naver', req.params.keyword)) {
-            return res.render('success', req.params.keyword);
-        } else {
-            return res.render('success', 'already');
-        }
+        cron.insertWork('naver', req.params.keyword).then((result) => {
+            if (keyword) {
+                return res.render('success', req.params.keyword);
+            } else {
+                return res.render('success', 'already');
+            }
+        });
     } else {
-        cron.insertWork('naver', )
+        cron.insertWork('naver', req.params.keyword)
     }
 }
