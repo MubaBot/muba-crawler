@@ -15,9 +15,12 @@ exports.insertWork = (engine, keyword) => {
     for (var e in engines) {
         if (e == engine) {
             var already = await works.findOne({ searchEngine: engine, keyword: keyword });
-            if (!already) works.create({ searchEngine: engine, keyword: keyword });
-            
-            break;
+            if (!already) {
+                works.create({ searchEngine: engine, keyword: keyword });
+                return keyword;
+            } else {
+                return NULL;
+            }
         }
     }
 }
