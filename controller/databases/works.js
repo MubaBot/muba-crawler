@@ -14,12 +14,14 @@ exports.insertWork = async (engine, keyword) => {
         if (e == engine) {
             return works.findOne({ searchEngine: engine, keyword: keyword }).then((already) => {
                 if (already == null) {
-                    works.create({ searchEngine: engine, keyword: keyword });
-                    return keyword;
+                    works.create({ searchEngine: engine, keyword: keyword, page: engines[e].page.start });
+                    return { status: 0, msg: keyword };
                 } else {
-                    return null;
+                    return { status: -1 };
                 }
             });
         }
     }
+
+    return { status: -2 };
 }

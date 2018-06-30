@@ -7,7 +7,12 @@ exports.config = {
                 { name: 'blog', params: 'where=post' },
                 { name: 'cafe', params: 'where=article' },
                 { name: 'kin', params: 'where=kin' }
-            ]
+            ],
+            page: {
+                param: 'start',
+                count: 10,
+                start: 1
+            }
         }
     },
     parser: {
