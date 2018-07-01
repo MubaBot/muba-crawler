@@ -1,13 +1,57 @@
 var cron = require('node-cron');
 var works = require('../databases/works');
+var crawlQueue = require('../databases/crawl-queue');
 
-var crwaler = cron.schedule('* * * * *', crwaling, false);
+var naverBlog = require('./naver/blog');
+var google = require('./google');
 
-var crwaling = () => {
-    return works.getAllWorks().then((results) => {
-        // return res.send(JSON.stringify(results));
+var crwaler = cron.schedule('* * * * *', crawling, false);
+
+// setInterval(searchUrl, 100);
+
+// function searchUrl() {
+//     crawlQueue.dequeueUrl().then(url => {
+//         if (url == null) return;
+//         console.log(url)
+//         // check parser
+//         // if (parser ok) {
+//         //     add visit site
+//         //     add raw data
+//         // }
+//     });
+// };
+
+var crawling = () => {
+    works.getAllWorks().then((ws) => {
+        for (var i = 0; i < 10 && i < ws.length; i++) {
+            doCawling(ws[i]);
+        }
     }).catch(err => err);
+
 }
+
+var doCawling = (work) => {
+    // console.log(work);
+    var urlList = [];
+
+    switch (work.searchEngine) {
+        case 'naver':
+            if (work.mode == 'blog') { naverBlog.searchKeyword(work.keyword, work.page); break; }
+        case 'google':
+            google.searchKeyword(work.keyword, work.page);
+            break;
+        default:
+            return;
+    }
+
+    // if list == 0 -> remove works
+    // else {
+    //  enqueue
+    //  update works
+    // }
+}
+
+// exports.enqueueCrawler = (URL) => c.queue(URL);
 
 var started = false;
 exports.startCrawler = () => { if (!started) { crwaler.start(); started = true; } };
@@ -43,4 +87,9 @@ exports.listKeywords = (req, res, next) => {
     return works.getAllWorks().then((results) => {
         return res.send(JSON.stringify(results));
     }).catch(err => console.log(err));
+}
+
+exports.test = (req, res, next) => {
+    crawling();
+    return res.send('test');
 }

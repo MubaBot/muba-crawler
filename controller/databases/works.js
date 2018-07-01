@@ -1,4 +1,6 @@
 const config = require('../../config').config;
+const urldecode = require('urldecode');
+const urlencode = require('urlencode');
 
 const works = require('../../models/works');
 
@@ -23,9 +25,9 @@ exports.insertWork = async (engine, keyword) => {
 
     for (var e in engines) {
         if (e == engine) {
-            return works.findOne({ searchEngine: engine, keyword: keyword }).then((already) => {
+            return works.findOne({ searchEngine: engine, keyword: urlencode(keyword) }).then((already) => {
                 if (already == null) {
-                    createWork(engine, keyword, engines[e]);
+                    createWork(engine, urlencode(keyword), engines[e]);
                     return { status: 0 };
                 } else {
                     return { status: -1 };
@@ -35,4 +37,31 @@ exports.insertWork = async (engine, keyword) => {
     }
 
     return { status: -2 };
+}
+
+exports.removeWork = async (engine, keyword) => {
+    console.log('remove', engine, keyword);
+    works.findOneAndRemove({ searchEngine: engine, keyword: keyword }).then(result => result).catch(err => err);
+}
+
+exports.updateWork = async (engine, keyword) => {
+    const engines = config.engines;
+    console.log(engine, keyword);
+
+    for (var e in engines) {
+        if (e == engine) {
+            return works.findOne({ searchEngine: engine, keyword: keyword }).then((work) => {
+                console.log(work);
+                // if (already == null) {
+                //     createWork(engine, keyword, engines[e]);
+                //     return { status: 0 };
+                // } else {
+                //     return { status: -1 };
+                // }
+            });
+        }
+    }
+
+    return { status: -2 };
+
 }
