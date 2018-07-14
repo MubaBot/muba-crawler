@@ -1,3 +1,6 @@
+# Editor
+.vscode
+
 # Modules
 node_modules/*
 

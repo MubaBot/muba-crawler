@@ -2,7 +2,6 @@ var cron = require('node-cron');
 var works = require('../databases/works');
 var crawlQueue = require('../databases/crawl-queue');
 
-var naverBlog = require('./naver/blog');
 var google = require('./google');
 
 var crwaler = cron.schedule('* * * * *', crawling, false);
