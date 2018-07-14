@@ -80,7 +80,6 @@ exports.enableKeyword = (req, res, next) => {
     } else {
         works.insertWork('naver', req.params.keyword);
     }
-
 }
 
 exports.listKeywords = (req, res, next) => {
