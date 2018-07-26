@@ -1,5 +1,4 @@
 const config = require('../../config').config;
-const urldecode = require('urldecode');
 const urlencode = require('urlencode');
 
 const works = require('../../models/works');
@@ -18,6 +17,7 @@ var createWork = (engine, keyword, config) => {
 
 exports.getAllWorks = (page = null) => {
     if (page == null) return works.find({}).sort('updatedAt').then(works => works).catch(err => console.log(err));
+    // else { }
 }
 
 exports.insertWork = async (engine, keyword) => {
@@ -28,9 +28,9 @@ exports.insertWork = async (engine, keyword) => {
             return works.findOne({ searchEngine: engine, keyword: urlencode(keyword) }).then((already) => {
                 if (already == null) {
                     createWork(engine, urlencode(keyword), engines[e]);
-                    return { status: 0 };
+                    return { status: 0 }; // success
                 } else {
-                    return { status: -1 };
+                    return { status: -1 }; // already or other error
                 }
             });
         }
@@ -63,5 +63,4 @@ exports.updateWork = async (engine, keyword) => {
     }
 
     return { status: -2 };
-
 }

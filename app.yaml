@@ -1,0 +1,10 @@
+apps:
+  - script: ./bin/www
+    name: 'Muba Crawler'
+    instances: 0
+    watch: true
+    exec_mode: cluster
+    env:
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production
