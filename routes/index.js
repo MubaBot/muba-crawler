@@ -1,9 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
+const keyword = require('./keyword');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('test');
-});
+router.use('/keyword', keyword);
 
 module.exports = router;
