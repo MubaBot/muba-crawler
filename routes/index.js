@@ -1,21 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var crawler = require('./crawler');
+const router = require('express').Router();
+const keyword = require('./keyword');
 
-var crawlerController = require('../controller/cralwer');
-
-// register keyword
-router.get('/enable/:keyword', crawlerController.enableKeyword);
-
-// remove keyword
-router.get('/disable/:keyword', function (req, res, next) { res.send('test') });
-
-// show collected information
-router.get('/lists/:pages', crawlerController.listKeywords);
-
-// test
-// router.get('/test', );
-
-router.use('/crawler', crawler);
+router.use('/keyword', keyword);
 
 module.exports = router;
