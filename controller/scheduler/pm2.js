@@ -3,40 +3,53 @@ const pm2 = require('pm2');
 const urlencode = require('urlencode');
 
 const works = require('../databases/works');
+const queue = require('../databases/crawl-queue');
 
-let cralwers = [];
+let crawlers = [];
 let running = {};
 let length = 1;
 
 new Promise((resolve) => pm2.list((err, list) => {
   for (let i in list)
     if (list[i].name == 'Muba Crawler')
-      cralwers.push(list[i].pm_id);
+      crawlers.push(list[i].pm_id);
 
-  resolve(cralwers);
+  resolve(crawlers);
 })).then((c) => {
   for (let i in c) running[c[i]] = 0;
   length = c.length;
 
   setInterval(getList, 15000);
-  // setInterval(getList, 15000);
+  setInterval(getUrlContent, 10000 / length);
 }).catch(err => console.log(err));
-
 
 function getList() {
   works.getAllWorks().then((ws) => {
-    for (var i = 0; i < ws.length && i < length; i++)
+    for (var i = 0; i < ws.length && i < length; i++) {
       run(makeListUrl(ws[i].searchEngine, ws[i].mode, ws[i].keyword, ws[i].page), ws[i].searchEngine, 'LIST', ws[i]._id);
+    }
   });
 };
 
+function getUrlContent() {
+  queue.dequeueUrl().then((u) => {
+    if (u == null) return;
+    const id = u._id;
+    const url = u.url;
+    const referer = u.referer;
+
+    run(url, referer, 'DATA', id);
+  });
+}
+
 function makeListUrl(engine, mode, keyword, page) {
   const e = config.engines[engine];
-  let m = '';
+  const param = e.page.param;
+  const query = e.query;
 
-  if (mode) m = `&${e.mode[mode].param}=${e.mode[mode].value}`
+  if (/^`(.*)`$/.test(e.url)) return eval(e.url);
 
-  return `${e.url}?${e.page.param}=${page}&${e.query}=${urlencode(keyword)}${m}`;
+  return `${e.url}?${param}=${page}&${query}=${urlencode(keyword)}` + (mode ? `&${e.mode[mode].param}=${e.mode[mode].value}` : '');
 }
 
 // mode 'LIST', 'DATA'
@@ -53,8 +66,9 @@ function run(url, engine, mode, id) {
 
 function isRun(id) {
   for (let pid in running)
-    if (running[pid] == id) return true;
-  
+    if (running[pid].toString() == id)
+      return true;
+
   return false;
 }
 
