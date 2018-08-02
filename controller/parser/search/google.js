@@ -6,22 +6,24 @@ const queue = require('../../databases/crawl-queue');
 module.exports = async (html) => {
   const $a = cheerio.load(html)('h3.r a');
 
-  let count = $a.length;
+  let count = 0;
   let promise = [];
 
-  if ($a.length == 0) return { success: false, count };
-
   $a.each((i) => {
+    count++;
     promise.push(new Promise(async (resolve, reject) => {
       let href = $a[i].attribs.href;
-      if (/^\/url?/.test(href)) {
+      if (/^\/url?/.test(href))
         href = href.substring(7);
-        const result = await queue.enqueueUrl(urldecode(href.split('&')[0]));
-        count += result.status;
-        resolve(result.status);
-      }
+
+      if (/^\/search/.test(href)) href = 'https://google.com' + href;
+      const result = await queue.enqueueUrl(urldecode(href.split('&sa=')[0]));
+      count += result.status;
+      resolve(result.status);
     }));
   });
+
+  if ($a.length == 0) return { success: false, count };
 
   await Promise.all(promise);
   return { success: count ? true : false, count };

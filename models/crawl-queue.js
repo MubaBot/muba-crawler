@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 // Define Schemes
 const crawlQueueSchema = new mongoose.Schema(
   {
-    url: { type: String, required: true }
+    url: { type: String, required: true },
+    referer: { type:String }
   },
   {
     timestamps: true,

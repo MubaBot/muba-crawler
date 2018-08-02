@@ -20,20 +20,31 @@ pm2.describe(process.env.pm_id, (err, describe) => {
 function onMessage() {
   process.on('message', async function (packet) {
     let parsing = function () { };
-    let callback = function () { };
+    let getConfig = function (domain) { return true; }
+
     switch (packet.topic) {
       case 'LIST':
         parsing = parser.search;
-        // callback = 
+        getConfig = parser.getSearchConfig;
+        flag = packet.data.engine;
+        break;
+      case 'DATA':
+        parsing = parser.getContent;
+        getConfig = parser.getParserConfig;
+        flag = parser.makeDomainByUrl(packet.data.url)
         break;
       default:
-        parsing = console.log;
+      // parsing = console.log;
     }
 
-    let html = await parser.request(packet.data.url, console.log);
-    const result = await parsing(packet.data.engine, html);
+    let result = { success: true };
+    let c = getConfig(flag);
+    if (c) {
+      const html = await parser.request(packet.data.url, { referer: packet.data.engine, iframe: c.iframe });
+      result = await parsing(packet.data, html);
+    }
 
-    parser.removeOrUpdateById(packet.data.id, packet.topic, result.success);
+    parser.removeOrUpdateById(packet.data.id, packet.topic, result);
 
     pm2.sendDataToProcessId({
       type: 'process:msg',
