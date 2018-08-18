@@ -1,6 +1,6 @@
-const router = require('express').Router();
-const keyword = require('./keyword');
+const router = require("express").Router();
+const KEYWORD = require("./keyword");
 
-router.use('/keyword', keyword);
+router.use("/keyword", KEYWORD);
 
 module.exports = router;
