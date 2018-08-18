@@ -5,7 +5,6 @@ require('./models');
 
 const createError = require('http-errors');
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -14,11 +13,6 @@ const logger = require('morgan');
 const router = require('./routes/index');
 
 const app = express();
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
