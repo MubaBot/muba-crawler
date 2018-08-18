@@ -10,6 +10,7 @@ exports.requireAdminLogin = (req, res, next) => {
     method: "GET",
     uri: process.env.API_URL + "/auth/admin/me",
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "x-access-token": token
     }
   })
