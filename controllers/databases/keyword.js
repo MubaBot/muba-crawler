@@ -1,4 +1,4 @@
-const Keyword = require("../../models/keyword");
+const Keyword = require("@models/keyword");
 
 exports.createKeyword = async keyword => {
   return await new Keyword({ keyword: keyword }).save().catch(err => err);
