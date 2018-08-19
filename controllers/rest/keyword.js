@@ -22,9 +22,18 @@ exports.reWorking = async (req, res, next) => {
   return res.send({ success: 0 });
 };
 
-exports.allKeyword = (req, res, next) => {
-  (async () => {
-    const keywords = await keyword.getAllKeyword();
-    return res.json(keywords);
-  })();
+exports.getKeywordAll = async (req, res, next) => {
+  const keywords = await keyword.getKeywordAll();
+  return res.json(keywords);
+};
+
+exports.getKeywordList = async (req, res, next) => {
+  const page = req.params.page;
+  const length = 5;
+  const start = (page - 1) * length;
+  const end = page * length;
+
+  const count = await keyword.getCount();
+  const keywords = await keyword.getKeywordList(start, end);
+  return res.json({ count: count, displayCount: length, lists: keywords });
 };
