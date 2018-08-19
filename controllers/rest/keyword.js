@@ -35,5 +35,7 @@ exports.getKeywordList = async (req, res, next) => {
 
   const count = await keyword.getCount();
   const keywords = await keyword.getKeywordList(start, end);
+  console.log(keywords);
+
   return res.json({ count: count, displayCount: length, lists: keywords });
 };

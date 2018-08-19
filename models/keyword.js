@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // Define Schemes
 const keywordSchema = new mongoose.Schema(
   {
-    keyword: { type: String, required: true, unique: true }
+    keyword: { type: String, required: true, unique: true },
   },
   {
     timestamps: true,

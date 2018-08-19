@@ -1,4 +1,5 @@
 const Keyword = require("@models/keyword");
+const Works = require("@models/works");
 
 exports.createKeyword = async keyword => {
   return await new Keyword({ keyword: keyword }).save().catch(err => err);
@@ -14,12 +15,31 @@ exports.getKeywordByName = async keyword => {
 };
 
 exports.getKeywordList = async (start, end) => {
-  return Keyword.find({})
+  return Keyword.aggregate([
+    {
+      $sort: { updatedAt: -1 }
+    },
+    {
+      $lookup: {
+        from: "works",
+        localField: "keyword",
+        foreignField: "keyword",
+        as: "works"
+      }
+    },
+    {
+      $project: {
+        _id: "$_id",
+        keyword: "$keyword",
+        createdAt: "$createdAt",
+        worker: { $size: "$works" }
+      }
+    }
+  ])
     .skip(start)
-    .limit(end - start)
-    .sort({ updatedAt: -1 });
+    .limit(end - start);
 };
 
 exports.getCount = async () => {
-  return Keyword.count({});
+  return Keyword.countDocuments({});
 };
