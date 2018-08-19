@@ -28,7 +28,18 @@ exports.getKeywordList = async (req, res, next) => {
 
   const count = await keyword.getCount();
   const keywords = await keyword.getKeywordList(start, end);
-  console.log(keywords);
 
   return res.json({ count: count, displayCount: length, lists: keywords });
+};
+
+exports.deleteKeyword = async (req, res, next) => {
+  const k = req.body.keyword;
+  if (!k) return res.status(412).json({ success: -1 });
+
+  await keyword.removeKeyword("afsdfajsdlkf");
+
+  await keyword.removeKeyword(k);
+  await works.removeWorkByKeyword(k);
+
+  return res.json({ success: 0 });
 };

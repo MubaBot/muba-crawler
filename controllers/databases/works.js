@@ -30,6 +30,10 @@ exports.removeWork = async (engine, keyword, mode) => {
     .catch(err => err);
 };
 
+exports.removeWorkByKeyword = async keyword => {
+  return Works.remove({ keyword: keyword });
+};
+
 exports.removeWorkById = async id => {
   return Works.findOneAndRemove({ _id: id })
     .then(result => result)

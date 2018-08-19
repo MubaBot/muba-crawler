@@ -8,9 +8,7 @@ exports.reSearchKeyword = async (req, res, next) => {
   return res.send({ success: 0 });
 };
 
-exports.getAllWorks = (req, res, next) => {
-  (async () => {
-    const works = await work.getAllWorks();
-    return res.send(works);
-  })();
+exports.getAllWorks = async (req, res, next) => {
+  const works = await work.getAllWorks();
+  return res.send(works);
 };

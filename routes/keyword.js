@@ -7,5 +7,6 @@ router.get("/list/all", Auth.requireAdminLogin, Keyword.getKeywordAll);
 // router.get("/works",
 
 router.post("/", Auth.requireAdminLogin, Keyword.create);
+router.delete("/", Auth.requireAdminLogin, Keyword.deleteKeyword);
 
 module.exports = router;

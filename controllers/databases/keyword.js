@@ -43,3 +43,7 @@ exports.getKeywordList = async (start, end) => {
 exports.getCount = async () => {
   return Keyword.countDocuments({});
 };
+
+exports.removeKeyword = async keyword => {
+  return Keyword.remove({ keyword: keyword });
+};
