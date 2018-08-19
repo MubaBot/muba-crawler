@@ -15,13 +15,6 @@ exports.create = async (req, res, next) => {
   return res.send({ success: 0 });
 };
 
-exports.reWorking = async (req, res, next) => {
-  const k = req.body.keyword;
-  for (let engine in config.engines) await works.createWork(engine, k, config.engines[engine]);
-
-  return res.send({ success: 0 });
-};
-
 exports.getKeywordAll = async (req, res, next) => {
   const keywords = await keyword.getKeywordAll();
   return res.json(keywords);
