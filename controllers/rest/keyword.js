@@ -29,7 +29,7 @@ exports.getKeywordAll = async (req, res, next) => {
 
 exports.getKeywordList = async (req, res, next) => {
   const page = req.params.page;
-  const length = 5;
+  const length = 20;
   const start = (page - 1) * length;
   const end = page * length;
 
