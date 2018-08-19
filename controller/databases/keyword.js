@@ -8,3 +8,6 @@ exports.getAllKeyword = async () => {
   const keywords = Keyword.find({}).sort('updatedAt');
   return keywords;
 }
+exports.getKeywordByName = async keyword => {
+  return Keyword.findOne({ keyword: keyword });
+};

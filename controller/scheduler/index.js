@@ -1,15 +1,15 @@
-const pm2 = require('pm2');
+const pm2 = require("pm2");
 
-const parser = require('../parser');
+const parser = require("../parser");
 
 pm2.describe(process.env.pm_id, (err, describe) => {
   if (err) return;
 
   switch (describe[0].name) {
-    case 'Load Balancer':
-      require('./pm2');
+    case "Load Balancer":
+      require("./pm2");
       break;
-    case 'Muba Crawler':
+    case "Muba Crawler":
       onMessage();
       break;
     default:
@@ -18,20 +18,22 @@ pm2.describe(process.env.pm_id, (err, describe) => {
 });
 
 function onMessage() {
-  process.on('message', async function (packet) {
-    let parsing = function () { };
-    let getConfig = function (domain) { return true; }
+  process.on("message", async function(packet) {
+    let parsing = function() {};
+    let getConfig = function(domain) {
+      return true;
+    };
 
     switch (packet.topic) {
-      case 'LIST':
+      case "LIST":
         parsing = parser.search;
         getConfig = parser.getSearchConfig;
         flag = packet.data.engine;
         break;
-      case 'DATA':
+      case "DATA":
         parsing = parser.getContent;
         getConfig = parser.getParserConfig;
-        flag = parser.makeDomainByUrl(packet.data.url)
+        flag = parser.makeDomainByUrl(packet.data.url);
         break;
       default:
       // parsing = console.log;
@@ -46,13 +48,14 @@ function onMessage() {
 
     parser.removeOrUpdateById(packet.data.id, packet.topic, result);
 
-    pm2.sendDataToProcessId({
-      type: 'process:msg',
-      data: { id: process.env.pm_id },
-      id: packet.data.parent,
-      topic: 'DONE'
-    }, function (err, res) {
-      // console.log('end', packet.data.parent, err, res);
-    });
+    pm2.sendDataToProcessId(
+      {
+        type: "process:msg",
+        data: { id: process.env.pm_id },
+        id: packet.data.parent,
+        topic: "DONE"
+      },
+      function(err, res) {}
+    );
   });
 }
