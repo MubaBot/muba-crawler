@@ -1,6 +1,6 @@
-const config = require("../../config");
-const works = require("../databases/works");
-const keyword = require("../databases/keyword");
+const config = require("@config");
+const works = require("@databases/works");
+const keyword = require("@databases/keyword");
 
 exports.create = async (req, res, next) => {
   const k = req.body.keyword;

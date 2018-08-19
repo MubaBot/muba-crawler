@@ -1,6 +1,6 @@
-const config = require("../../config");
+const config = require("@config");
 
-const Works = require("../../models/works");
+const Works = require("@models/works");
 
 exports.createWork = async (engine, keyword, config) => {
   let work = { searchEngine: engine, keyword: keyword, page: config.page.start };

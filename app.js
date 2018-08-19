@@ -1,7 +1,6 @@
 // ENV
-require('dotenv').config();
-require('./controller/scheduler');
-require('./models');
+require('@controllers/scheduler');
+require('@models');
 
 const createError = require('http-errors');
 const express = require('express');
