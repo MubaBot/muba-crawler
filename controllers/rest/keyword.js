@@ -57,8 +57,6 @@ exports.deleteKeyword = async (req, res, next) => {
   const k = req.body.keyword;
   if (!k) return res.status(412).json({ success: -1 });
 
-  await keyword.removeKeyword("afsdfajsdlkf");
-
   await keyword.removeKeyword(k);
   await works.removeWorkByKeyword(k);
 
