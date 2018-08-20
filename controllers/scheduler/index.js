@@ -1,6 +1,6 @@
 const pm2 = require("pm2");
 
-const parser = require("../parser");
+const parser = require("@controllers/parser");
 
 pm2.describe(process.env.pm_id, (err, describe) => {
   if (err) return;

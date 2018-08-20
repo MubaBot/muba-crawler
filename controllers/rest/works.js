@@ -1,5 +1,18 @@
 const config = require("@config");
 const works = require("@databases/works");
+const queue = require("@databases/queue");
+
+exports.getWorkingList = async (req, res, next) => {
+  const page = req.params.page;
+  const length = 50;
+  const start = (page - 1) * length;
+  const end = page * length;
+
+  const count = await queue.getCount();
+  const workings = await queue.getWorkingList(start, end);
+
+  return res.json({ count: count, displayCount: length, lists: workings });
+};
 
 exports.reSearchKeyword = async (req, res, next) => {
   const k = req.body.keyword;

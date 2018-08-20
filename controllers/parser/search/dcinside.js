@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const urldecode = require('urldecode');
 
-const queue = require('../../databases/crawl-queue');
+const queue = require('@databases/queue');
 
 module.exports = async (html, referer) => {
   const $a = cheerio.load(html)('ul.thumb_list li .thumb_txt>a');
@@ -13,7 +13,7 @@ module.exports = async (html, referer) => {
     count++;
     promise.push(new Promise(async (resolve, reject) => {
       let href = $a[i].attribs.href;
-      const result = await queue.enqueueUrl(urldecode(href), referer);
+      const result = await queue.enQueueUrl(urldecode(href), referer);
       count += result.status;
       resolve(result.status);
     }));

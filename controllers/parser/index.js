@@ -1,11 +1,11 @@
-const config = require("../../config");
+const config = require("@config");
 
 const phantom = require("phantom");
 const Entities = require("html-entities").XmlEntities;
 const entities = new Entities();
 
-const works = require("../databases/works");
-const queue = require("../databases/crawl-queue");
+const works = require("@databases/works");
+const queue = require("@databases/queue");
 
 /*
  * options

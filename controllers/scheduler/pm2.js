@@ -1,9 +1,9 @@
-const config = require("../../config");
+const config = require("@config");
 const pm2 = require("pm2");
 const urlencode = require("urlencode");
 
-const works = require("../databases/works");
-const queue = require("../databases/crawl-queue");
+const works = require("@databases/works");
+const queue = require("@databases/queue");
 
 let crawlers = [];
 let running = {};
@@ -34,7 +34,7 @@ function getList() {
 }
 
 function getUrlContent() {
-  queue.dequeueUrl().then(u => {
+  queue.deQueueUrl().then(u => {
     if (u == null) return;
     const id = u._id;
     const url = u.url;
