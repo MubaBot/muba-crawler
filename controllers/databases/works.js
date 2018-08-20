@@ -1,5 +1,4 @@
 const config = require("@config");
-
 const Works = require("@models/works");
 
 exports.createWork = async (engine, keyword, config) => {
@@ -20,6 +19,12 @@ exports.createWork = async (engine, keyword, config) => {
 exports.getAllWorks = () => {
   return Works.find({})
     .sort("updatedAt")
+    .then(works => works)
+    .catch(err => console.log(err));
+};
+
+exports.getWorksByKeyword = keyword => {
+  return Works.find({ keyword: keyword })
     .then(works => works)
     .catch(err => console.log(err));
 };
