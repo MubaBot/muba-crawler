@@ -1,6 +1,22 @@
 const Cache = require("@models/url");
 const Contents = require("@models/contents");
 
+exports.getContentList = async (start, end) => {
+  return Contents.find({})
+    .sort({ updatedAt: -1 })
+    .skip(start)
+    .select("_id url title")
+    .limit(end - start);
+};
+
+exports.getContentById = async id => {
+  return Contents.findOne({ _id: id }).select("content comments");
+};
+
+exports.getCount = async () => {
+  return Contents.countDocuments({});
+};
+
 exports.createContents = async (url, title, content, comments) => {
   const exist = await Cache.find({ url: url });
   if (exist.length) return { status: -1 };
@@ -11,19 +27,7 @@ exports.createContents = async (url, title, content, comments) => {
     .catch(err => console.log("createContents Error", err));
 };
 
-exports.getCount = async () => {
-  return Contents.countDocuments({});
-};
-
-exports.getContentList = async (start, end) => {
-  return Contents.find({})
-    .sort({ updatedAt: -1 })
-    .skip(start)
-    .select("_id url title")
-    .limit(end - start);
-};
-
-exports.removeUrlById = async (id) => {
+exports.removeUrlById = async id => {
   return Contents.findOneAndRemove({ _id: id })
     .then(result => {
       return Cache.findOneAndRemove({ url: result.url })

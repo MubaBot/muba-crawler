@@ -12,6 +12,15 @@ exports.getWorkingList = async (req, res, next) => {
   return res.json({ count: count, displayCount: length, lists: contents });
 };
 
+exports.getContentById = async (req, res, next) => {
+  const id = req.params.id;
+  if (!id || id == "") return res.status(412).json({ success: -1 });
+
+  return Contents.getContentById(id)
+    .then(result => res.json(result))
+    .catch(err => res.status(500).json({ success: 1 }));
+};
+
 exports.deleteContent = async (req, res, next) => {
   const id = req.params.id;
   if (!id || id == "") return res.status(412).json({ success: -1 });
