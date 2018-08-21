@@ -9,7 +9,7 @@ const parser = {
     path: 'naver/blog',
     title: '.se_title',
     content: '.__se_component_area',
-    comments: 'comments'
+    comments: '.section_comment'
   },
   '*.tistory.com': {
     path: 'tistory',
