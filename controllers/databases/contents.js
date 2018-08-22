@@ -4,6 +4,7 @@ const Contents = require("@models/contents");
 exports.getContentList = async (start, end) => {
   return Contents.find({})
     .select("_id url title")
+    .sort({ updatedAt: -1 })
     .skip(start)
     .limit(end - start);
 };
