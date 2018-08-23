@@ -80,6 +80,17 @@ const engines = {
       count: 1,
       start: 1
     }
+  },
+
+  mangoplate: {
+    url: "`https://www.mangoplate.com/search/${urlencode(keyword)}?${query}=${urlencode(keyword)}&${param}=${page}`",
+    query: "keyword",
+    name: "망고플레이트",
+    page: {
+      param: "page",
+      count: 1,
+      start: 1
+    }
   }
 };
 
