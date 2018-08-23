@@ -21,6 +21,17 @@ const engines = {
     }
   },
 
+  naverPlace: {
+    url: "https://store.naver.com/restaurants/list",
+    query: "query",
+    name: "네이버 플레이스",
+    page: {
+      param: "page",
+      count: 1,
+      start: 1
+    }
+  },
+
   google: {
     url: "https://www.google.co.kr/search",
     query: "q",
