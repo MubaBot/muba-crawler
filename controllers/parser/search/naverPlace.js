@@ -4,7 +4,7 @@ const urldecode = require("urldecode");
 const queue = require("@databases/queue");
 
 module.exports = async (html, referer) => {
-  const $a = cheerio.load(html)("ul.list_place_col1 li.list_item span.tit_inner a");
+  const $a = cheerio.load(html)("ul.list_place_col1 li.list_item span.tit_inner a.name");
 
   let count = 0;
   let promise = [];
