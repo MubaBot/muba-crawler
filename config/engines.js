@@ -69,6 +69,17 @@ const engines = {
       count: 1,
       start: 1
     }
+  },
+
+  diningcode: {
+    url: "https://www.diningcode.com/list.php",
+    query: "query",
+    name: "다이닝코드",
+    page: {
+      param: "page",
+      count: 1,
+      start: 1
+    }
   }
 };
 
