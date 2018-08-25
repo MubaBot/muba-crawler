@@ -30,13 +30,12 @@ exports.deleteWorkingById = async (req, res, next) => {
   const id = req.params.id;
   if (!id || id == "") return res.status(412).json({ success: -1 });
 
-  return Queue.removeUrlById(id)
-    .then(result => res.json({ success: 0 }))
-    .catch(err => res.status(500).json({ success: 1 }));
-};
-
-exports.deleteWorkingAll = async (req, res, next) => {
-  return Queue.removeAllUrl()
-    .then(result => res.json({ success: 0 }))
-    .catch(err => res.status(500).json({ success: 1 }));
+  if (id === "all")
+    return Queue.removeAllUrl()
+      .then(result => res.json({ success: 0 }))
+      .catch(err => res.status(500).json({ success: 1 }));
+  else
+    return Queue.removeUrlById(id)
+      .then(result => res.json({ success: 0 }))
+      .catch(err => res.status(500).json({ success: 1 }));
 };
