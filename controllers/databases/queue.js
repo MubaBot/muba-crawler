@@ -29,6 +29,12 @@ exports.removeUrlById = id => {
     .catch(err => console.log(err));
 };
 
+exports.removeAllUrl = () => {
+  return Queue.remove({})
+    .then(result => result)
+    .catch(err => console.log(err));
+};
+
 exports.getCount = async () => {
   return Queue.countDocuments({});
 };

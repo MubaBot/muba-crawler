@@ -34,3 +34,9 @@ exports.deleteWorkingById = async (req, res, next) => {
     .then(result => res.json({ success: 0 }))
     .catch(err => res.status(500).json({ success: 1 }));
 };
+
+exports.deleteWorkingAll = async (req, res, next) => {
+  return Queue.removeAllUrl()
+    .then(result => res.json({ success: 0 }))
+    .catch(err => res.status(500).json({ success: 1 }));
+};
