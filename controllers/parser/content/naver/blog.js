@@ -3,8 +3,9 @@ const cheerio = require("cheerio");
 const contents = require("@databases/contents");
 const parser = require("@controllers/parser");
 
-module.exports = async (config, url, html) => {
+module.exports = async (config, info, html) => {
   const $ = cheerio.load(html);
+  const url = info.url;
 
   // if ($(config.title).length == 0) console.log(url, 'Not found Titile');
   const $title = parser.decodeHtml($(config.title).html());
@@ -17,5 +18,5 @@ module.exports = async (config, url, html) => {
   // if ($(config.comments).length == 0) console.log(url, 'Not found Comments');
   const $comments = parser.decodeHtml($(config.comments).html());
 
-  return contents.createContents(url, $title, $contents, $comments).then(result => 1);
+  return contents.createContents(url, info.engine, $title, $contents, $comments).then(result => 1);
 };

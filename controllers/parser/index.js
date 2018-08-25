@@ -43,7 +43,7 @@ exports.getContent = async (info, html) => {
 
   if (c) {
     const getContent = require("./content/" + c.path);
-    const result = await getContent(c, info.url, html);
+    const result = await getContent(c, info, html);
 
     return { success: !!result };
   }

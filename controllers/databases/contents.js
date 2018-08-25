@@ -17,13 +17,12 @@ exports.getCount = async () => {
   return Contents.countDocuments({});
 };
 
-exports.createContents = async (url, title, content, comments) => {
+exports.createContents = async (url, referer, title, content, comments) => {
   const exist = await Cache.find({ url: url });
   if (exist.length) return { status: -1 };
 
-  await Cache.create({ url: url });
   return Contents.create({ url: url, title: title, content: content, comments: comments })
-    .then(result => 1)
+    .then(() => Cache.create({ url: url, referer: referer }).then(() => 1))
     .catch(err => console.log("createContents Error", err));
 };
 

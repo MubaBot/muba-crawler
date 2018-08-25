@@ -26,6 +26,10 @@ const parser = {
       '.tt_article_useless_p_margin',
     ].join(','),
     comments: '#cmt_list li:not(.board-box-line-dashed)'
+  },
+  
+  'store.naver.com': {
+    path: 'naver/place'
   }
 }
 

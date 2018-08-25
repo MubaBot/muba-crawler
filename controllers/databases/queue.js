@@ -35,7 +35,7 @@ exports.getCount = async () => {
 
 exports.getWorkingList = async (start, end) => {
   return Queue.find({})
-    .sort({ updatedAt: -1 })
+    .sort({ updatedAt: 1 })
     .skip(start)
     .limit(end - start);
 };
