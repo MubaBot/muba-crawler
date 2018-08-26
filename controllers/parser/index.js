@@ -17,11 +17,11 @@ exports.request = async (url, options) => {
   const page = await instance.createPage();
   await page.on("onResourceRequested", function(requestData) {});
 
-  const status = await page.open(url, {
-    headers: { Referer: options.referer }
-  });
+  const status = await page.open(url, { headers: { Referer: options.referer } }).catch(err => false);
 
-  let content = await page.property("content");
+  if (status === false) return "";
+
+  let content = await page.property("content").catch(err => "");
 
   await page.close();
   await instance.exit();
