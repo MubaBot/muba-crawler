@@ -1,4 +1,4 @@
-const config = require("@config");
+const Config = require("@databases/config");
 const works = require("@databases/works");
 const keyword = require("@databases/keyword");
 
@@ -23,11 +23,12 @@ exports.getWorkerByKeyword = async (req, res, next) => {
   const k = req.body.keyword;
   if (!k) return res.status(412).json({ success: -1 });
 
+  const config = await Config.getSearchConfig();
   return works
     .getWorksByKeyword(k)
     .then(result => {
       const workers = result.map(w => {
-        const name = config.engines[w.searchEngine].name || config.engines[w.searchEngine].mode[w.mode].name;
+        const name = config[w.searchEngine].name || config[w.searchEngine].mode[w.mode].name;
         return {
           id: w._doc._id,
           page: w._doc.page,
@@ -47,7 +48,8 @@ exports.create = async (req, res, next) => {
   const exist = await keyword.getKeywordByName(k);
   if (exist) return res.status(409).json({ success: -2 });
 
-  for (let engine in config.engines) await works.createWork(engine, k, config.engines[engine]);
+  const config = await Config.getSearchConfig();
+  for (let engine in config) await works.createWork(engine, k, config[engine]);
   await keyword.createKeyword(k);
 
   return res.send({ success: 0 });

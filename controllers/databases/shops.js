@@ -28,10 +28,7 @@ exports.createShop = async (info, name, place, times, tel, menus) => {
     menus
   })
     .then(() => Cache.create({ url: info.url, referer: info.engine }).then(() => true))
-    .catch(err => {
-      console.log(err);
-      return false;
-    });
+    .catch(err => false);
 };
 
 exports.removeShopById = async id => {

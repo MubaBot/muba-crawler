@@ -1,10 +1,10 @@
-const config = require("@config");
+const Config = require("@databases/config");
 const Works = require("@models/works");
 
 exports.createWork = async (engine, keyword, config) => {
   let work = { searchEngine: engine, keyword: keyword, page: config.page.start };
 
-  if (config.mode) {
+  if (Object.keys(config.mode).length !== 0) {
     for (let m in config.mode) {
       work.mode = m;
       const exist = await Works.findOne({ searchEngine: engine, keyword: keyword, mode: work.mode });
@@ -48,7 +48,9 @@ exports.removeWorkById = async id => {
 exports.updateWorkById = async id => {
   const w = await Works.findOne({ _id: id });
   const engine = w.searchEngine;
-  const c = config.engines[engine];
+
+  const config = await Config.getSearchConfig();
+  const c = config[engine];
 
   return Works.findOneAndUpdate({ _id: id }, { page: w.page + c.page.count });
 };

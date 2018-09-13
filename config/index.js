@@ -1,8 +1,8 @@
-const engines = require('./engines');
+const searchs = require('./searchs');
 const parser = require('./parser');
 
 const config = {
-  engines: engines,
+  searchs: searchs,
   parser: parser
 }
 

@@ -7,16 +7,11 @@ module.exports = async (config, info, html) => {
   const $ = cheerio.load(html);
   const url = info.url;
 
-  // if ($(config.title).length == 0) console.log(url, 'Not found Titile');
+  if ($(config.content).length == 0) return 0;
+
   const $title = parser.decodeHtml($(config.title).html());
-
-  if ($(config.content).length == 0) {
-    /*console.log(url, '!! Not found Content !!');*/ return 0;
-  }
   const $contents = parser.decodeHtml($(config.content).html());
-
-  // if ($(config.comments).length == 0) console.log(url, 'Not found Comments');
-  const $comments = parser.decodeHtml($(config.comments).html());
+  const $comments = parser.decodeHtml($(config.comment).html());
 
   return contents.createContents(url, info.engine, $title, $contents, $comments).then(result => 1);
 };

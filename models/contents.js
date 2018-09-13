@@ -1,18 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Define Schemes
 const contentSchema = new mongoose.Schema(
   {
     url: { type: String, required: true, unique: true },
-    title: { type: String },
-    content: { type: String, required: true },
-    comments: { type: String },
+    title: { type: String, trim: true },
+    content: { type: String, trim: true, required: true },
+    comments: { type: String, trim: true }
   },
   {
     timestamps: true,
-    collection: 'contents'
+    collection: "contents"
   }
 );
 
+contentSchema.index({ updatedAt: 1 });
+
 // Create Model & Export
-module.exports = mongoose.model('contents', contentSchema);
+module.exports = mongoose.model("contents", contentSchema);

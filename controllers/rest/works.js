@@ -1,4 +1,4 @@
-const Config = require("@config");
+const Config = require("@databases/config");
 const Works = require("@databases/works");
 const Queue = require("@databases/queue");
 
@@ -16,7 +16,8 @@ exports.getWorkingList = async (req, res, next) => {
 
 exports.reSearchKeyword = async (req, res, next) => {
   const k = req.body.keyword;
-  for (let engine in Config.engines) await Works.createWork(engine, k, Config.engines[engine]);
+  const config = await Config.getSearchConfig();
+  for (let engine in config) await Works.createWork(engine, k, config[engine]);
 
   return res.send({ success: 0 });
 };

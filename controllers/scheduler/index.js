@@ -36,7 +36,6 @@ function onMessage() {
         flag = parser.makeDomainByUrl(packet.data.url);
         break;
       default:
-      // parsing = console.log;
     }
 
     let result = { success: true };

@@ -2,8 +2,6 @@ const cheerio = require("cheerio");
 
 const shops = require("@databases/shops");
 
-const queue = require("@databases/queue");
-
 module.exports = async (config, info, html) => {
   const $ = cheerio.load(html);
 

@@ -3,8 +3,8 @@ const urldecode = require("urldecode");
 
 const queue = require("@databases/queue");
 
-module.exports = async html => {
-  const $a = cheerio.load(html)("h3.r a");
+module.exports = async (html, tag, referer) => {
+  const $a = cheerio.load(html)(tag);
 
   let count = 0;
   let promise = [];
@@ -14,10 +14,7 @@ module.exports = async html => {
     promise.push(
       new Promise(async (resolve, reject) => {
         let href = $a[i].attribs.href;
-        if (/^\/url?/.test(href)) href = href.substring(7);
-
-        if (/^\/search/.test(href)) href = "https://google.com" + href;
-        const result = await queue.enQueueUrl(urldecode(href.split("&sa=")[0]));
+        const result = await queue.enQueueUrl(urldecode(href), referer);
         count += result.status;
         resolve(result.status);
       })

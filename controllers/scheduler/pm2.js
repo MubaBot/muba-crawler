@@ -1,4 +1,4 @@
-const config = require("@config");
+const Config = require("@databases/config");
 const pm2 = require("pm2");
 const urlencode = require("urlencode");
 
@@ -21,14 +21,14 @@ new Promise(resolve =>
     length = c.length;
 
     setInterval(getList, 15000);
-    setInterval(getUrlContent, 3000 / length);
+    setInterval(getUrlContent, 10000 / length);
   })
   .catch(err => console.log(err));
 
 function getList() {
-  works.getAllWorks().then(ws => {
+  works.getAllWorks().then(async ws => {
     for (var i = 0; i < ws.length && i < length; i++) {
-      run(makeListUrl(ws[i].searchEngine, ws[i].mode, ws[i].keyword, ws[i].page), ws[i].searchEngine, "LIST", ws[i]._id);
+      run(await makeListUrl(ws[i].searchEngine, ws[i].mode, ws[i].keyword, ws[i].page), ws[i].searchEngine, "LIST", ws[i]._id);
     }
   });
 }
@@ -44,14 +44,16 @@ function getUrlContent() {
   });
 }
 
-function makeListUrl(engine, mode, keyword, page) {
-  const e = config.engines[engine];
+async function makeListUrl(engine, mode, k, page) {
+  const config = await Config.getSearchConfig();
+  const e = config[engine];
   const param = e.page.param;
   const query = e.query;
+  const keyword = urlencode(k);
 
   if (/^`(.*)`$/.test(e.url)) return eval(e.url);
 
-  return `${e.url}?${param}=${page}&${query}=${urlencode(keyword)}` + (mode ? `&${e.mode[mode].param}=${e.mode[mode].value}` : "");
+  return `${e.url}?${param}=${page}&${query}=${keyword}` + (mode ? `&${e.mode[mode].param}=${e.mode[mode].value}` : "");
 }
 
 // mode 'LIST', 'DATA'
