@@ -7,7 +7,10 @@ const queue = require("@databases/queue");
 
 let crawlers = [];
 let running = {};
+let runcount = {};
 let length = 1;
+
+const MAX_RUNCOUNT = 500;
 
 new Promise(resolve =>
   pm2.list((err, list) => {
@@ -17,7 +20,11 @@ new Promise(resolve =>
   })
 )
   .then(c => {
-    for (let i in c) running[c[i]] = 0;
+    for (let i in c) {
+      running[c[i]] = 0;
+      runcount[c[i]] = 0;
+    }
+
     length = c.length;
 
     setInterval(getList, 15000);
@@ -58,18 +65,33 @@ async function makeListUrl(engine, mode, k, page) {
 
 // mode 'LIST', 'DATA'
 function run(url, engine, mode, id) {
+  addRunCount();
   if (isRun(id)) return false;
   for (let pid in running) {
     if (running[pid] == 0) {
       running[pid] = id;
+      runcount[pid] = 0;
       runParser(pid, url, engine, mode, id);
       break;
     }
   }
 }
 
+function addRunCount() {
+  for (let pid in runcount) runcount[pid]++;
+}
+
 function isRun(id) {
-  for (let pid in running) if (running[pid].toString() == id) return true;
+  for (let pid in running) {
+    if (running[pid].toString() == id) {
+      if (runcount[pid] > MAX_RUNCOUNT) {
+        pm2.restart(pid, (err, apps) => console.log(err));
+        return false;
+      }
+
+      return true;
+    }
+  }
 
   return false;
 }
@@ -88,4 +110,5 @@ function runParser(pid, url, engine, mode, id) {
 
 process.on("message", async function(packet) {
   running[packet.data.id] = 0;
+  runcount[packet.data.id] = 0;
 });
