@@ -68,7 +68,7 @@ function run(url, engine, mode, id) {
   addRunCount();
   if (isRun(id)) return false;
   for (let pid in running) {
-    if (running[pid] == 0) {
+    if (running[pid] === 0) {
       running[pid] = id;
       runcount[pid] = 0;
       runParser(pid, url, engine, mode, id);
@@ -78,17 +78,20 @@ function run(url, engine, mode, id) {
 }
 
 function addRunCount() {
-  for (let pid in runcount) runcount[pid]++;
+  for (let pid in runcount) {
+    runcount[pid]++;
+    if (runcount[pid] > MAX_RUNCOUNT) {
+      pm2.restart(pid, (err, apps) => console.log(err));
+
+      runcount[pid] = 0;
+      running[pid] = 0;
+    }
+  }
 }
 
 function isRun(id) {
   for (let pid in running) {
-    if (running[pid].toString() == id) {
-      if (runcount[pid] > MAX_RUNCOUNT) {
-        pm2.restart(pid, (err, apps) => console.log(err));
-        return false;
-      }
-
+    if (running[pid].toString() === id) {
       return true;
     }
   }
