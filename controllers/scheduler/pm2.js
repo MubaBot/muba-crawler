@@ -79,12 +79,14 @@ function run(url, engine, mode, id) {
 
 function addRunCount() {
   for (let pid in runcount) {
-    runcount[pid]++;
-    if (runcount[pid] > MAX_RUNCOUNT) {
-      pm2.restart(pid, (err, apps) => console.log(err));
+    if (running[pid].toString() !== "0") {
+      runcount[pid]++;
+      if (runcount[pid] > MAX_RUNCOUNT) {
+        pm2.restart(pid, (err, apps) => console.log(err));
 
-      runcount[pid] = 0;
-      running[pid] = 0;
+        runcount[pid] = 0;
+        running[pid] = 0;
+      }
     }
   }
 }

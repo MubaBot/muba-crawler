@@ -17,7 +17,7 @@ module.exports = async (config, info, html) => {
   const city = addr1[1];
 
   const address = $addr.length === 0 ? [] : [state, city, [addr1[2], addr1[3]].join(" "), [addr2[0], addr2[1]].join(" "), [...addr1.slice(4), ...addr2.slice(2)].join(" ")];
-  console.log($addr.length === 2 ? "" : address);
+  // console.log($addr.length === 2 ? "" : address);
 
   const $time = $(".list_bizinfo .list_item_biztime .biztime > span > span");
 
@@ -36,7 +36,7 @@ module.exports = async (config, info, html) => {
 
   for (let i in t) {
     if (!/[\d][\d]:[\d][\d] - [\d][\d]:[\d][\d]$/.test(t[i])) {
-      console.log("요일", t[i]);
+      // console.log("요일", t[i]);
       continue;
     }
     const dates = t[i].split(" ");
@@ -76,7 +76,7 @@ module.exports = async (config, info, html) => {
     for (let i = 0; i < $prices.length; i++) {
       const p = prices[i].replace(/,/gi, "").replace("원", "");
       if (!/^(\d)*$/.test(p)) {
-        console.log("가격", p);
+        // console.log("가격", p);
         continue;
       }
 
