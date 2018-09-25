@@ -50,7 +50,7 @@ exports.search = async (data, html) => {
 
 exports.getContent = async (info, html) => {
   const c = await exports.getParserConfig(exports.makeDomainByUrl(info.url));
-  if (!c) return { success: false };
+  if (!c) return { success: true };
 
   switch (c.type) {
     case TYPE_CONTENT:
