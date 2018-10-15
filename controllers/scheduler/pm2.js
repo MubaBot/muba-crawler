@@ -28,7 +28,7 @@ new Promise(resolve =>
     length = c.length;
 
     setInterval(getList, 15000);
-    setInterval(getUrlContent, 3000 / length);
+    setInterval(getUrlContent, 300000 / length);
   })
   .catch(err => console.log(err));
 

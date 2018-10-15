@@ -1,7 +1,7 @@
 const rp = require("request-promise");
 
 exports.requireAdminLogin = (req, res, next) => {
-  const token = req.headers["x-access-token"];
+  const token = getToken(req);
 
   if (!token) return res.status(401).send("Unauthorized");
 
@@ -19,3 +19,5 @@ exports.requireAdminLogin = (req, res, next) => {
     })
     .catch(err => res.status(401).send("Unauthorized"));
 };
+
+const getToken = (exports.getToken = req => req.headers["x-access-token"]);

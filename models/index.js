@@ -10,9 +10,11 @@ mongoose
     process.env.MONGO_URI,
     {
       useNewUrlParser: true,
-      useCreateIndex: true,
+      // useCreateIndex: true
       // useFindAndModify: false
     }
   )
   .then(() => null)
   .catch(e => console.error(e));
+
+mongoose.set("useCreateIndex", true);

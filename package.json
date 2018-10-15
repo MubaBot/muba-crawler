@@ -36,6 +36,7 @@
     "@databases": "controllers/databases",
     "@models": "models",
     "@config": "config",
-    "@rest": "controllers/rest"
+    "@rest": "controllers/rest",
+    "@apis": "controllers/apis"
   }
 }

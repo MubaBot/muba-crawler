@@ -12,6 +12,10 @@ exports.getCount = async () => {
   return Shops.countDocuments({});
 };
 
+exports.getAllShops = async () => {
+  return Shops.find({});
+};
+
 exports.createShop = async (info, name, place, times, tel, menus) => {
   const exist = await Cache.find({ url: info.url });
   if (exist.length) return false;
