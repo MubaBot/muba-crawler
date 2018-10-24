@@ -7,7 +7,7 @@ module.exports = async (config, info, html) => {
 
   const $name = $(".ct_box_area .biz_name_area strong.name");
   const names = $name.text().split(" ");
-  const name = names.filter((v, i) => !(i === names.length - 1 && /점$/.test(v))).join(" ");
+  // const name = names.filter((v, i) => !(i === names.length - 1 && /점$/.test(v))).join(" ");
   // console.log(name);
 
   const $addr = $(".list_bizinfo .list_address .addr");
