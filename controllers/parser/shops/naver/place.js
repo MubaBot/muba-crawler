@@ -8,6 +8,7 @@ module.exports = async (config, info, html) => {
   const $name = $(".ct_box_area .biz_name_area strong.name");
   const names = $name.text().split(" ");
   // const name = names.filter((v, i) => !(i === names.length - 1 && /점$/.test(v))).join(" ");
+  const name = names.join(" ");
   // console.log(name);
 
   const $addr = $(".list_bizinfo .list_address .addr");
@@ -16,7 +17,8 @@ module.exports = async (config, info, html) => {
   const state = addr1[0];
   const city = addr1[1];
 
-  const address = $addr.length === 0 ? [] : [state, city, [addr1[2], addr1[3]].join(" "), [addr2[0], addr2[1]].join(" "), [...addr1.slice(4), ...addr2.slice(2)].join(" ")];
+  const address =
+    $addr.length === 0 ? [] : [state, city, [addr1[2], addr1[3]].join(" "), [addr2[0], addr2[1]].join(" "), [...addr1.slice(4), ...addr2.slice(2)].join(" ")];
   // console.log($addr.length === 2 ? "" : address);
 
   const $time = $(".list_bizinfo .list_item_biztime .biztime > span > span");
@@ -87,6 +89,7 @@ module.exports = async (config, info, html) => {
     }
   }
 
-  if (shops.createShop(info, name, { state: address[0], city: address[1], address1: address[2], address2: address[3], options: address[4] }, times, tel, menus)) return { success: true };
+  if (shops.createShop(info, name, { state: address[0], city: address[1], address1: address[2], address2: address[3], options: address[4] }, times, tel, menus))
+    return { success: true };
   return { success: false };
 };
