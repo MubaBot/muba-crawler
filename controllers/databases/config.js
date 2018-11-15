@@ -26,7 +26,7 @@ exports.removeSearchConfigById = async id => {
   const exist = SearchConfig.findOne({ _id: id });
   if (!exist) return Promise.reject({ success: -1 });
 
-  return SearchConfig.findOneAndRemove({ _id: id });
+  return SearchConfig.findOneAndDelete({ _id: id });
 };
 
 exports.removeModeById = async (id, mode) => {
@@ -87,7 +87,7 @@ exports.updateContentConfigByDomain = async (domain, title, content, comment) =>
 };
 
 exports.removeContentConfigById = async id => {
-  return ContentConfig.findOneAndRemove({ _id: id });
+  return ContentConfig.findOneAndDelete({ _id: id });
 };
 
 exports.getContentConfig = async () => {

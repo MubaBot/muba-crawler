@@ -30,7 +30,7 @@ exports.getWorksByKeyword = keyword => {
 };
 
 exports.removeWork = async (engine, keyword, mode) => {
-  return Works.findOneAndRemove({ searchEngine: engine, keyword: keyword })
+  return Works.findOneAndDelete({ searchEngine: engine, keyword: keyword })
     .then(result => result)
     .catch(err => err);
 };
@@ -40,7 +40,7 @@ exports.removeWorkByKeyword = async keyword => {
 };
 
 exports.removeWorkById = async id => {
-  return Works.findOneAndRemove({ _id: id })
+  return Works.findOneAndDelete({ _id: id })
     .then(result => result)
     .catch(err => err);
 };
