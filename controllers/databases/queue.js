@@ -30,7 +30,7 @@ exports.deQueueUrl = () => {
 };
 
 exports.removeUrlById = id => {
-  return Queue.findOneAndRemove({ _id: id })
+  return Queue.findOneAndDelete({ _id: id })
     .then(result => result)
     .catch(err => console.log(err));
 };

@@ -36,9 +36,9 @@ exports.createShop = async (info, name, place, times, tel, menus) => {
 };
 
 exports.removeShopById = async id => {
-  return Shops.findOneAndRemove({ _id: id })
+  return Shops.findOneAndDelete({ _id: id })
     .then(shop =>
-      Cache.findOneAndRemove({ url: shop.url })
+      Cache.findOneAndDelete({ url: shop.url })
         .then(result => result)
         .catch(err => console.log(err))
     )

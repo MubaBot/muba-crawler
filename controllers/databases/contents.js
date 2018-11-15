@@ -27,9 +27,9 @@ exports.createContents = async (url, referer, title, content, comments) => {
 };
 
 exports.removeUrlById = async id => {
-  return Contents.findOneAndRemove({ _id: id })
+  return Contents.findOneAndDelete({ _id: id })
     .then(result => {
-      return Cache.findOneAndRemove({ url: result.url })
+      return Cache.findOneAndDelete({ url: result.url })
         .then(result => result)
         .catch(err => console.log(err));
     })
